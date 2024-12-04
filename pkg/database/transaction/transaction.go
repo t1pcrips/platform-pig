@@ -1,10 +1,10 @@
 package transaction
 
 import (
-	"chat-server/internal/client/database"
-	"chat-server/internal/client/database/postgres"
 	"context"
 	"github.com/jackc/pgx/v5"
+	"github.com/t1pcrips/platform-pkg/pkg/database"
+	"github.com/t1pcrips/platform-pkg/pkg/database/postgres"
 
 	"github.com/pkg/errors"
 )

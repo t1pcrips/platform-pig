@@ -1,10 +1,10 @@
 package postgres
 
 import (
-	"chat-server/internal/client/database"
-	"chat-server/pkg/errs"
 	"context"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/t1pcrips/platform-pkg/pkg/database"
+	"github.com/t1pcrips/platform-pkg/pkg/errs"
 )
 
 type pgClient struct {

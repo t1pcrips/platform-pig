@@ -1,14 +1,14 @@
 package postgres
 
 import (
-	"chat-server/internal/client/database"
-	"chat-server/internal/client/database/prettier"
 	"context"
 	"fmt"
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/t1pcrips/platform-pkg/pkg/database"
+	"github.com/t1pcrips/platform-pkg/pkg/database/prettier"
 	"log"
 )
 
