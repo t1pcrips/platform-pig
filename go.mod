@@ -1,4 +1,4 @@
-module platform-pkg
+module github.com/t1pcrips/platform-pkg
 
 go 1.23.3
 
