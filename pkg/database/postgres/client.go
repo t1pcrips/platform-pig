@@ -3,8 +3,8 @@ package postgres
 import (
 	"context"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/pkg/errors"
 	"github.com/t1pcrips/platform-pkg/pkg/database"
-	"github.com/t1pcrips/platform-pkg/pkg/errs"
 )
 
 type pgClient struct {
@@ -14,7 +14,7 @@ type pgClient struct {
 func New(ctx context.Context, dsn string) (database.Client, error) {
 	dbc, err := pgxpool.New(ctx, dsn)
 	if err != nil {
-		return nil, errs.ErrConnectToDb
+		return nil, errors.New("failed to connect to database")
 	}
 
 	return &pgClient{
