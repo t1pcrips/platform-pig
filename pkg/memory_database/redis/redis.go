@@ -35,6 +35,24 @@ func (r *rs) DoContext(ctx context.Context, commandName string, args ...interfac
 	return reply, nil
 }
 
+func (r *rs) Ping(ctx context.Context) error {
+	conn, err := r.pool.GetContext(ctx)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		_ = conn.Close()
+	}()
+
+	_, err = conn.Do("PING")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *rs) Close() {
 	r.pool.Close()
 }

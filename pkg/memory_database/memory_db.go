@@ -14,4 +14,5 @@ type QueryExecute interface {
 type DB interface {
 	QueryExecute
 	Close()
+	Ping(ctx context.Context) error
 }

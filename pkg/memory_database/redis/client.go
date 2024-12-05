@@ -11,14 +11,19 @@ type rsClient struct {
 	mastedDBC memory_database.DB
 }
 
-func NewClientRs(ctx context.Context, net string, dsn string, maxIdle int, maxIdleTimeout time.Duration) memory_database.Client {
+func NewClientRs(ctx context.Context, net string, dsn string, maxIdle int, maxIdleTimeout, ctxTimeout time.Duration) memory_database.Client {
+	ctxWithTimeOut, cancel := context.WithTimeout(ctx, ctxTimeout)
+
+	defer cancel()
+
 	pool := &redis.Pool{
 		IdleTimeout: maxIdleTimeout,
 		MaxIdle:     maxIdle,
 		DialContext: func(ctx context.Context) (redis.Conn, error) {
-			return redis.DialContext(ctx, net, dsn)
+			return redis.DialContext(ctxWithTimeOut, net, dsn)
 		},
 	}
+
 	return &rsClient{
 		mastedDBC: NewRedis(pool),
 	}
