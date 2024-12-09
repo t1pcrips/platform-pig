@@ -12,7 +12,7 @@ type rsClient struct {
 }
 
 func NewClientRs(ctx context.Context, net string, dsn string, maxIdle int, maxIdleTimeout, ctxTimeout time.Duration) memory_database.Client {
-	ctxWithTimeOut, cancel := context.WithTimeout(ctx, ctxTimeout)
+	ctxWithTimeOut, _ := context.WithTimeout(ctx, ctxTimeout)
 
 	//defer cancel()
 
