@@ -29,9 +29,11 @@ func (r *rs) DoContext(ctx context.Context, commandName string, timeout time.Dur
 			if len(args) >= 3 {
 				ttl, ok := args[len(args)-1].(int)
 				if ok {
+					// Убираем TTL из аргументов
 					args = args[:len(args)-1]
 
-					value, errEx = conn.Do("SETEX", append([]interface{}{args[0], ttl}, args[1:]...)...)
+					// Формируем аргументы для SETEX: ключ, TTL, значение
+					value, errEx = conn.Do("SETEX", args[0], ttl, args[1:])
 					if errEx != nil {
 						return errEx
 					}
@@ -41,6 +43,7 @@ func (r *rs) DoContext(ctx context.Context, commandName string, timeout time.Dur
 			}
 		}
 
+		// Если команда не SET или нет TTL, выполняем обычную команду
 		value, errEx = conn.Do(commandName, args...)
 		if errEx != nil {
 			return errors.Wrap(errEx, "failed to Do in redis")
