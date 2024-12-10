@@ -12,7 +12,7 @@ type rsClient struct {
 }
 
 func NewClientRs(ctx context.Context, net string, dsn string, maxIdle int, maxIdleTimeout, ctxTimeout time.Duration) memory_database.Client {
-	ctxWithTimeOut, _ := context.WithTimeout(ctx, ctxTimeout)
+	//ctxWithTimeOut, _ := context.WithTimeout(ctx, ctxTimeout)
 
 	//defer cancel()
 
@@ -20,7 +20,7 @@ func NewClientRs(ctx context.Context, net string, dsn string, maxIdle int, maxId
 		IdleTimeout: maxIdleTimeout,
 		MaxIdle:     maxIdle,
 		DialContext: func(ctx context.Context) (redis.Conn, error) {
-			return redis.DialContext(ctxWithTimeOut, net, dsn)
+			return redis.DialContext(ctx, net, dsn)
 		},
 	}
 
