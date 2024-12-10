@@ -23,6 +23,16 @@ func (r *rs) DoContext(ctx context.Context, commandName string, args ...interfac
 		return nil, errors.Wrap(err, "failed to connect with redis")
 	}
 
+	if commandName == "SET" {
+		if len(args) >= 3 {
+			ttl, ok := args[len(args)-1].(int)
+			if ok {
+				args = args[:len(args)-1]
+				return conn.Do("SETEX", append([]interface{}{args[0], ttl}, args[1:]...)...)
+			}
+		}
+	}
+
 	reply, err := conn.Do(commandName, args...)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to Do in redis")
