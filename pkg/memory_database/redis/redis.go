@@ -26,13 +26,13 @@ func (r *rs) DoContext(ctx context.Context, commandName string, timeout time.Dur
 	var value interface{}
 	err := r.execute(ctx, func(ctx context.Context, conn redis.Conn) error {
 		var errEx error
-		if commandName == "SET" {
+		if commandName == "SETEX" {
 			if len(args) >= 3 {
 				ttl, okTtl := args[1].(time.Duration)
 				key, okKey := args[0].(string)
 
 				if okTtl && okKey {
-					value, errEx = conn.Do("SETEX", append([]interface{}{key, ttl}, args[2:]...)...)
+					value, errEx = conn.Do(commandName, append([]interface{}{key, ttl}, args[2:]...)...)
 					if errEx != nil {
 						fmt.Println(errEx)
 						return errEx
