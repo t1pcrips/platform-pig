@@ -17,8 +17,8 @@ func NewClientRs(ctx context.Context, net string, dsn string, maxIdle int, maxId
 	//defer cancel()
 
 	pool := &redis.Pool{
-		IdleTimeout: maxIdleTimeout,
-		MaxIdle:     maxIdle,
+		//IdleTimeout: maxIdleTimeout,
+		MaxIdle: maxIdle,
 		DialContext: func(ctx context.Context) (redis.Conn, error) {
 			return redis.DialContext(ctx, net, dsn)
 		},
