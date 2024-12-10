@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"github.com/pkg/errors"
 	"github.com/t1pcrips/platform-pkg/pkg/memory_database"
@@ -27,14 +28,13 @@ func (r *rs) DoContext(ctx context.Context, commandName string, timeout time.Dur
 		var errEx error
 		if commandName == "SET" {
 			if len(args) >= 3 {
-				ttl, ok := args[len(args)-1].(int)
-				if ok {
-					// Убираем TTL из аргументов
-					args = args[:len(args)-1]
+				ttl, okTtl := args[1].(time.Duration)
+				key, okKey := args[0].(string)
 
-					// Формируем аргументы для SETEX: ключ, TTL, значение
-					value, errEx = conn.Do("SETEX", args[0], ttl, args[1:])
+				if okTtl && okKey {
+					value, errEx = conn.Do("SETEX", append([]interface{}{key, ttl}, args[2:]...)...)
 					if errEx != nil {
+						fmt.Println(errEx)
 						return errEx
 					}
 
