@@ -1,6 +1,9 @@
 package memory_database
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 type Client interface {
 	DB() DB
@@ -8,11 +11,11 @@ type Client interface {
 }
 
 type QueryExecute interface {
-	DoContext(ctx context.Context, commandName string, args ...interface{}) (interface{}, error)
+	DoContext(ctx context.Context, commandName string, timeout time.Duration, args ...interface{}) (interface{}, error)
 }
 
 type DB interface {
 	QueryExecute
 	Close()
-	Ping(ctx context.Context) error
+	Ping(ctx context.Context, timeout time.Duration) error
 }
