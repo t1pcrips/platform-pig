@@ -23,10 +23,6 @@ func (r *rs) DoContext(ctx context.Context, commandName string, args ...interfac
 		return nil, errors.Wrap(err, "failed to connect with redis")
 	}
 
-	defer func() {
-		_ = r.pool.Close()
-	}()
-
 	reply, err := conn.Do(commandName, args...)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to Do in redis")
